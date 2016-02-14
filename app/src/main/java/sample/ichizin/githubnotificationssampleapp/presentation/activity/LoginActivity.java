@@ -1,11 +1,13 @@
 package sample.ichizin.githubnotificationssampleapp.presentation.activity;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import sample.ichizin.githubnotificationssampleapp.presentation.view.LoginView;
 import sample.ichizin.githubnotificationssampleapp.util.LogUtil;
 
 /**
@@ -13,7 +15,7 @@ import sample.ichizin.githubnotificationssampleapp.util.LogUtil;
  *
  * @author ichizin
  */
-public class LoginActivity extends BaseActivity {
+public class LoginActivity extends BaseActivity implements LoginView {
 
     public static final String AUTH_URL = "github_oauth_url";
     public static final int LOGIN_REQUEST_CODE = 11;
@@ -21,10 +23,30 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.setWebView();
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    /**
+     * Set webview
+     */
+    private void setWebView() {
         WebView webView = new WebView(this);
         String url = getIntent().getStringExtra(AUTH_URL);
-        LogUtil.d(LoginActivity.class.getSimpleName(), url);
         webView.loadUrl(url);
         webView.setWebViewClient(new WebViewClient() {
             @Override
@@ -52,19 +74,22 @@ public class LoginActivity extends BaseActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    public Context getContext() {
+        return this;
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    public void showLoading() {
+
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    public void hideLoading() {
+
     }
 
+    @Override
+    public void showError() {
 
+    }
 }
