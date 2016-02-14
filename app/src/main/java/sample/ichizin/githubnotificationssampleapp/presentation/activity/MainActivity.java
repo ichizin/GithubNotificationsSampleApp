@@ -10,24 +10,32 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import sample.ichizin.githubnotificationssampleapp.R;
+import sample.ichizin.githubnotificationssampleapp.di.componets.AuthComponent;
+import sample.ichizin.githubnotificationssampleapp.di.componets.DaggerAuthComponent;
+import sample.ichizin.githubnotificationssampleapp.di.modules.AuthModule;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
+
+    private AuthComponent authComponent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        initializeInjector();
+        this.navigator.login(this, this);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
+//
+//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//            }
+//        });
     }
 
     @Override
@@ -51,4 +59,16 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    private void initializeInjector() {
+
+        this.authComponent = DaggerAuthComponent.builder()
+                .applicationComponent(getApplicationComponent())
+                .activityModule(getActivityModule())
+                .authModule(new AuthModule())
+                .build();
+
+        this.authComponent.inject(this);
+    }
+
 }

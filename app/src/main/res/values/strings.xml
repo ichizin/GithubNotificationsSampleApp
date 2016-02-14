@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">GithubNotificationsSampleApp</string>
     <string name="action_settings">Settings</string>
+
+
+    <!--システムパラメータ -->
+    <string name="scopes">notifications</string>
+    <string name="oauth_host">www.github.com</string>
+    <string name="client_id">df1555d1dd9c0343f4dc</string>
+
 </resources>
