@@ -5,7 +5,7 @@ import android.app.Activity;
 import dagger.Component;
 import sample.ichizin.githubnotificationssampleapp.di.PerActivity;
 import sample.ichizin.githubnotificationssampleapp.di.modules.ActivityModule;
-import sample.ichizin.githubnotificationssampleapp.di.modules.ApplicationModule;
+import sample.ichizin.githubnotificationssampleapp.di.modules.AppModule;
 
 /**
  * A base component upon which fragment's components may depend.
@@ -14,7 +14,7 @@ import sample.ichizin.githubnotificationssampleapp.di.modules.ApplicationModule;
  * Subtypes of ActivityComponent should be decorated with annotation:
  */
 @PerActivity
-@Component(dependencies = ApplicationModule.class, modules = ActivityModule.class)
+@Component(dependencies = AppModule.class, modules = ActivityModule.class)
 public interface ActivityComponent {
     //Exposed to sub-graphs.
     Activity activity();
