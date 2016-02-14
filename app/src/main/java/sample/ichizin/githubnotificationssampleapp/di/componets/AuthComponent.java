@@ -4,6 +4,7 @@ import dagger.Component;
 import sample.ichizin.githubnotificationssampleapp.di.PerActivity;
 import sample.ichizin.githubnotificationssampleapp.di.modules.ActivityModule;
 import sample.ichizin.githubnotificationssampleapp.di.modules.AuthModule;
+import sample.ichizin.githubnotificationssampleapp.presentation.activity.MainActivity;
 
 /**
  * Created by ichizin on 16/02/14.
@@ -14,4 +15,5 @@ import sample.ichizin.githubnotificationssampleapp.di.modules.AuthModule;
 @Component(dependencies = ApplicationComponent.class, modules = {ActivityModule.class, AuthModule.class})
 public interface AuthComponent  extends ActivityComponent {
 
+    void inject(MainActivity mainActivity);
 }
