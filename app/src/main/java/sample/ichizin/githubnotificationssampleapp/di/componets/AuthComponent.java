@@ -4,6 +4,8 @@ import dagger.Component;
 import sample.ichizin.githubnotificationssampleapp.di.PerActivity;
 import sample.ichizin.githubnotificationssampleapp.di.modules.ActivityModule;
 import sample.ichizin.githubnotificationssampleapp.di.modules.AuthModule;
+import sample.ichizin.githubnotificationssampleapp.domain.interactor.GetAccessToken;
+import sample.ichizin.githubnotificationssampleapp.presentation.activity.LoginActivity;
 import sample.ichizin.githubnotificationssampleapp.presentation.activity.MainActivity;
 
 /**
@@ -15,5 +17,7 @@ import sample.ichizin.githubnotificationssampleapp.presentation.activity.MainAct
 @Component(dependencies = ApplicationComponent.class, modules = {ActivityModule.class, AuthModule.class})
 public interface AuthComponent  extends ActivityComponent {
 
-    void inject(MainActivity mainActivity);
+    void inject(LoginActivity loginActivity);
+
+    GetAccessToken getAccessToken();
 }

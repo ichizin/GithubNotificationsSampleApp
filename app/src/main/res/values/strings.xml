@@ -1,11 +1,24 @@
 <resources>
-    <string name="app_name">GithubNotificationsSampleApp</string>
+    <string name="app_name">Github Notifications SampleApp</string>
     <string name="action_settings">Settings</string>
+    <string name="login_button_label">Github Login</string>
+    <string name="alert_login_title">Please login your GitHub account</string>
 
+    <string name="progress_dispose">処理中...</string>
+    <string name="confirm">確認</string>
+    <string name="confirm_backkey_message">アプリを終了します。よろしいですか？</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
 
-    <!--システムパラメータ -->
+    <!-- Error message -->
+    <string name="error_unknown">処理に失敗しました</string>
+    <string name="error_auth_validate_parameter">ログイン処理に失敗しました</string>
+
+    <!--System parameter -->
     <string name="scopes">notifications</string>
     <string name="oauth_host">www.github.com</string>
     <string name="client_id">df1555d1dd9c0343f4dc</string>
+    <string name="client_secret">5b5da2e69f2e39ba3ae5233f04a447bc295ca971</string>
+    <string name="callback_url">https://dl.dropboxusercontent.com/u/64400285/GitHubNotificationApp/callback.html?code=</string>
 
 </resources>

@@ -5,9 +5,12 @@ import android.support.v7.app.AppCompatActivity;
 
 import javax.inject.Inject;
 
+import butterknife.ButterKnife;
 import sample.ichizin.githubnotificationssampleapp.MyApplication;
 import sample.ichizin.githubnotificationssampleapp.di.componets.ApplicationComponent;
+import sample.ichizin.githubnotificationssampleapp.di.componets.DaggerAuthComponent;
 import sample.ichizin.githubnotificationssampleapp.di.modules.ActivityModule;
+import sample.ichizin.githubnotificationssampleapp.di.modules.AuthModule;
 import sample.ichizin.githubnotificationssampleapp.presentation.Navigator;
 
 /**
@@ -26,6 +29,21 @@ public class BaseActivity extends AppCompatActivity {
         this.getApplicationComponent().inject(this);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ButterKnife.unbind(this);
+    }
+
+    protected void bindView() {
+        ButterKnife.bind(this);
+    }
+
     /**
      * Get the Main Application component for dependency injection.
      *
@@ -42,5 +60,4 @@ public class BaseActivity extends AppCompatActivity {
     protected ActivityModule getActivityModule() {
         return new ActivityModule(this);
     }
-
 }

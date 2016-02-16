@@ -8,8 +8,7 @@ import java.util.EnumSet;
  * @author ichizin
  */
 public enum ErrorCode {
-
-    SYSTEM_ERROR(999);      // 予期せぬエラー
+    SYSTEM_ERROR(999);                  // Unknown error
 
 
     private int errorCode;

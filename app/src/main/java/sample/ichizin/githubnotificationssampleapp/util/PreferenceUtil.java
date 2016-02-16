@@ -3,9 +3,22 @@ package sample.ichizin.githubnotificationssampleapp.util;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.text.TextUtils;
+import android.util.Base64;
 
+import com.facebook.crypto.Crypto;
+import com.facebook.crypto.Entity;
+import com.facebook.crypto.exception.CryptoInitializationException;
+import com.facebook.crypto.exception.KeyChainException;
+import com.facebook.crypto.keychain.SharedPrefsBackedKeyChain;
+import com.facebook.crypto.util.SystemNativeCryptoLibrary;
+
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.Map;
+import java.util.UUID;
 
+import sample.ichizin.githubnotificationssampleapp.exception.StoreTokenException;
 import sample.ichizin.githubnotificationssampleapp.util.enums.PreferenceKey;
 
 /**
@@ -18,21 +31,21 @@ public class PreferenceUtil {
     private static final String TAG = PreferenceUtil.class.getSimpleName();
     private static final String PREFERENCE_DEFAULT = "app_preference";
 
-    public static void write(Context context, PreferenceKey key, String value) {
+    public static synchronized void write(Context context, PreferenceKey key, String value) {
         write(context, PREFERENCE_DEFAULT, key, value);
     }
 
-    public static void write(Context context, String preferenceName,
+    public static synchronized void write(Context context, String preferenceName,
                              PreferenceKey key, String value) {
         if (context != null) {
-            LogUtil.d(TAG, "write/String : " + value);
+            LogUtil.d(TAG, "write/String  " + key.getId() + " :" + value);
 
             SharedPreferences pref = context
                     .getApplicationContext()
                     .getSharedPreferences(preferenceName, Activity.MODE_PRIVATE);
             SharedPreferences.Editor e = pref.edit();
             e.putString(key.getId(), value);
-            e.commit();
+            e.apply();
         }
     }
 
@@ -40,7 +53,7 @@ public class PreferenceUtil {
         write(context, PREFERENCE_DEFAULT, key, value);
     }
 
-    public static void write(Context context, String preferenceName,
+    public static synchronized void write(Context context, String preferenceName,
                              PreferenceKey key, int value) {
 
         if(context != null) {
@@ -52,16 +65,16 @@ public class PreferenceUtil {
                     .getSharedPreferences(preferenceName, Activity.MODE_PRIVATE);
             SharedPreferences.Editor e = pref.edit();
             e.putInt(key.getId(), value);
-            e.commit();
+            e.apply();
 
         }
     }
 
-    public static void write(Context context, PreferenceKey key, boolean value) {
+    public static synchronized void write(Context context, PreferenceKey key, boolean value) {
         write(context, PREFERENCE_DEFAULT, key, value);
     }
 
-    public static void write(Context context, String preferenceName,
+    public static synchronized void write(Context context, String preferenceName,
                              PreferenceKey key, boolean value) {
 
         if(context != null) {
@@ -73,7 +86,7 @@ public class PreferenceUtil {
                     .getSharedPreferences(preferenceName, Activity.MODE_PRIVATE);
             SharedPreferences.Editor e = pref.edit();
             e.putBoolean(key.getId(), value);
-            e.commit();
+            e.apply();
 
         }
     }
@@ -82,22 +95,21 @@ public class PreferenceUtil {
         write(context, PREFERENCE_DEFAULT, key, value);
     }
 
-    public static void write(Context context, String preferenceName,
+    public static synchronized void write(Context context, String preferenceName,
                              PreferenceKey key, long value) {
 
         if(context != null) {
 
             LogUtil.d(TAG, "write/Int : " + value);
-
             SharedPreferences pref = context
                     .getApplicationContext()
                     .getSharedPreferences(preferenceName, Activity.MODE_PRIVATE);
             SharedPreferences.Editor e = pref.edit();
             e.putLong(key.getId(), value);
-            e.commit();
-
+            e.apply();
         }
     }
+
 
     /*
      * プリファレンス読み出し
@@ -114,7 +126,7 @@ public class PreferenceUtil {
         String str = null;
         try {
             str = pref.getString(key.getId(), null);
-            LogUtil.d(TAG, "read/String : " + str);
+            LogUtil.d(TAG, "read/String " + key.getId() + " :" + str);
         } catch (ClassCastException e) {
             e.printStackTrace();
         }
@@ -232,6 +244,77 @@ public class PreferenceUtil {
             }
             editor.commit();
         }
+    }
+
+    /**
+     * アクセストークンを暗号化して保存
+     * @param context
+     * @param token
+     */
+    public static void setAccessToken(Context context, String token) throws StoreTokenException {
+
+        String accessKey = UUID.randomUUID().toString();
+
+        Crypto crypto = new Crypto(
+                new SharedPrefsBackedKeyChain(context),
+                new SystemNativeCryptoLibrary());
+
+        if(!crypto.isAvailable()) {
+            throw new StoreTokenException();
+        }
+
+        try {
+            byte[] encryptKey = crypto.encrypt(token.getBytes(), new Entity(accessKey));
+            write(context, PreferenceKey.TOKEN_ACCESS_KEY, accessKey);
+            write(context, PreferenceKey.ENCRYPTED_KEY, Base64.encodeToString(encryptKey, Base64.DEFAULT));
+        } catch (UnsupportedEncodingException e) {
+            LogUtil.error(TAG, e);
+        } catch (CryptoInitializationException e) {
+            LogUtil.error(TAG, e);
+        } catch (KeyChainException e) {
+            LogUtil.error(TAG, e);
+        } catch (IOException e) {
+            LogUtil.error(TAG, e);
+        }
+    }
+
+    /**
+     * アクセストークンを復号して読み出す
+     * @param context
+     * @return
+     */
+    public static String readAccessToken(Context context) throws StoreTokenException {
+
+        String accessKey = read(context, PreferenceKey.TOKEN_ACCESS_KEY);
+        String encryptedToken = read(context, PreferenceKey.ENCRYPTED_KEY);
+        byte[] rawEncryptedToken = null;
+
+        if(!TextUtils.isEmpty(accessKey) && !TextUtils.isEmpty(encryptedToken)) {
+
+            rawEncryptedToken = Base64.decode(encryptedToken, Base64.DEFAULT);
+
+            Crypto crypto = new Crypto(
+                    new SharedPrefsBackedKeyChain(context),
+                    new SystemNativeCryptoLibrary());
+
+            if(!crypto.isAvailable()) {
+                throw new StoreTokenException();
+            }
+            try {
+                byte[] decryptedToken = crypto.decrypt(rawEncryptedToken, new Entity(accessKey));
+                String accessToken = new String(decryptedToken);
+                return accessToken;
+            } catch (UnsupportedEncodingException e) {
+                LogUtil.error(TAG, e);
+            } catch (CryptoInitializationException e) {
+                LogUtil.error(TAG, e);
+            } catch (KeyChainException e) {
+                LogUtil.error(TAG, e);
+            } catch (IOException e) {
+                LogUtil.error(TAG, e);
+            }
+        }
+        return null;
     }
 
 }

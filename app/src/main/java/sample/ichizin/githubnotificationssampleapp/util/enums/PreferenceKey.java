@@ -6,16 +6,17 @@ package sample.ichizin.githubnotificationssampleapp.util.enums;
  * @author ichizin
  */
 public enum PreferenceKey {
-    LOGIN("");
+    LOGIN(""),
+    TOKEN_ACCESS_KEY("token_access_key"),
+    ENCRYPTED_KEY("encrypted_key");
 
-    private String value;
+
+    private String key;
 
     public String getId() {
-        return value;
+        return key;
     }
 
-    PreferenceKey(String id) {
-        this.value = value;
-    }
+    PreferenceKey(String key) { this.key = key; }
 
 }

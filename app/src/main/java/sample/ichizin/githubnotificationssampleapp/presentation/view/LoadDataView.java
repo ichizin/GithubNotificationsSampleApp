@@ -10,5 +10,5 @@ public interface LoadDataView {
 
     void hideLoading();
 
-    void showError();
+    void showError(String message);
 }
