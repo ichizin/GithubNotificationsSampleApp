@@ -5,4 +5,6 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="button_text_default">#ffffff</color>
+
+    <color name="list_background">#EEEEEE</color>
 </resources>

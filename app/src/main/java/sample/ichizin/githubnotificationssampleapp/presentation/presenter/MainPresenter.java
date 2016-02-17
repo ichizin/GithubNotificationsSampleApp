@@ -22,8 +22,6 @@ import sample.ichizin.githubnotificationssampleapp.util.LogUtil;
 public class MainPresenter implements Presenter<MainView> {
 
     private MainView mainView;
-    private boolean isLoading;
-    private boolean isFinish;
     private boolean isReload;
 
     private final GetNotifiacetions getNotifiacetions;
@@ -63,6 +61,11 @@ public class MainPresenter implements Presenter<MainView> {
                 this.mainView.getContext()), new GetNotificationSuscriber());
     }
 
+    public void reload() {
+        this.isReload = true;
+        getData();
+    }
+
     @Override
     public void attachView(@NonNull MainView view) {
         this.mainView = view;
@@ -71,7 +74,8 @@ public class MainPresenter implements Presenter<MainView> {
     private class GetNotificationSuscriber extends Subscriber<List<Notification>> {
         @Override
         public void onCompleted() {
-
+            isReload  = false;
+            MainPresenter.this.mainView.isRefreshing(false);
         }
 
         @Override
@@ -82,9 +86,11 @@ public class MainPresenter implements Presenter<MainView> {
         @Override
         public void onNext(List<Notification> notifications) {
 
-            LogUtil.d(MainPresenter.class.getSimpleName(), notifications);
+            if(isReload) {
 
+            }
 
+            MainPresenter.this.mainView.addAdapter(notifications);
         }
     }
 }

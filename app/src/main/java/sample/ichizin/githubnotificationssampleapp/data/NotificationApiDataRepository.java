@@ -1,11 +1,11 @@
 package sample.ichizin.githubnotificationssampleapp.data;
 
+
 import java.util.List;
 
 import retrofit.Retrofit;
 import retrofit.http.GET;
 import retrofit.http.Header;
-import retrofit.http.Headers;
 import retrofit.http.Query;
 import rx.Observable;
 import sample.ichizin.githubnotificationssampleapp.domain.model.Notification;
@@ -24,17 +24,14 @@ public class NotificationApiDataRepository implements NotificationApiRepository 
         this.notificationApi = retrofit.create(NotificationApi.class);
     }
 
+
     @Override
     public Observable<List<Notification>> getNotifications(String accessToken) {
-        return this.notificationApi.getNotifications(accessToken, false, false, "");
+        return this.notificationApi.getNotifications(accessToken, true, false, "");
     }
 
     interface NotificationApi {
 
-        @Headers({
-                "Accept:application/vnd.github.v3.full+json",
-                "Accept:application/json"
-        })
         @GET("notifications")
         Observable<List<Notification>> getNotifications(@Header("Authorization") String accessToken,
                                                         @Query("all") boolean all,

@@ -21,6 +21,7 @@ import retrofit.Retrofit;
 import retrofit.RxJavaCallAdapterFactory;
 import sample.ichizin.githubnotificationssampleapp.BuildConfig;
 import sample.ichizin.githubnotificationssampleapp.data.AuthDataRepository;
+import sample.ichizin.githubnotificationssampleapp.data.AuthIntercepter;
 import sample.ichizin.githubnotificationssampleapp.data.HttpLoggingInterceptor;
 import sample.ichizin.githubnotificationssampleapp.data.NotificationApiDataRepository;
 import sample.ichizin.githubnotificationssampleapp.domain.executor.JobExecutor;
@@ -84,6 +85,7 @@ public class AppModule {
 
     @Provides
     @Singleton
+    @Named("noAuth")
     OkHttpClient provideOkHttpClient(Cache cache) {
 
         OkHttpClient client = new OkHttpClient();
@@ -93,7 +95,7 @@ public class AppModule {
 
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         if(BuildConfig.DEBUG) {
-            interceptor.setLevel(HttpLoggingInterceptor.Level.BASIC);
+            interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         }
         client.interceptors().add(interceptor);
 
@@ -103,7 +105,24 @@ public class AppModule {
     @Provides
     @Singleton
     @Named("auth")
-    Retrofit provideRetrofit(Gson gson, OkHttpClient okHttpClient) {
+    OkHttpClient provideAuthOkHttpClient(Context context, Cache cache) {
+
+        OkHttpClient client = new OkHttpClient();
+        client.setCache(cache);
+        client.setReadTimeout(10000, TimeUnit.MILLISECONDS);
+        client.setConnectTimeout(15000, TimeUnit.MILLISECONDS);
+
+        AuthIntercepter interceptor = new AuthIntercepter(context);
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        client.interceptors().add(interceptor);
+
+        return client;
+    }
+
+    @Provides
+    @Singleton
+    @Named("auth")
+    Retrofit provideRetrofit(Gson gson, @Named("noAuth")OkHttpClient okHttpClient) {
 
         Retrofit retrofit = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create(gson))
@@ -118,7 +137,7 @@ public class AppModule {
     @Provides
     @Singleton
     @Named("api")
-    Retrofit provideApiRetrofit(Gson gson, OkHttpClient okHttpClient) {
+    Retrofit provideApiRetrofit(Gson gson, @Named("noAuth")OkHttpClient okHttpClient) {
 
         Retrofit retrofit = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create(gson))
@@ -138,7 +157,7 @@ public class AppModule {
 
     @Provides
     @Singleton
-    NotificationApiRepository provideNotificationApiRepository(@Named("api")Retrofit retrofit) {
+    NotificationApiRepository provideNotificationApiRepository(@Named("api") Retrofit retrofit) {
         return new NotificationApiDataRepository(retrofit);
     }
 

@@ -17,6 +17,8 @@ public class AccessToken implements Serializable {
 
     private static final long serialVersionUID = -2161944679465879989L;
 
+    private static final String TOKEN_PREFIX = "token ";
+
     private String access_token;
 
     private String scope;
@@ -51,7 +53,7 @@ public class AccessToken implements Serializable {
 
     public static String getAccessToken(Context context) throws StoreTokenException {
         if(TextUtils.isEmpty(token)) {
-            token = PreferenceUtil.readAccessToken(context);
+            token = TOKEN_PREFIX + PreferenceUtil.readAccessToken(context);
         }
         return token;
     }
@@ -59,7 +61,7 @@ public class AccessToken implements Serializable {
     public static void setAccessToken(Context context, String accessToken) throws StoreTokenException {
 
         PreferenceUtil.setAccessToken(context, accessToken);
-        token = accessToken;
+        token = TOKEN_PREFIX + accessToken;
     }
 
 

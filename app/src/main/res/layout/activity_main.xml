@@ -18,4 +18,6 @@
 
     <include layout="@layout/content_main"/>
 
+    <!--&lt;!&ndash; loading &ndash;&gt;-->
+    <!--<include layout="@layout/progress_circle" />-->
 </android.support.design.widget.CoordinatorLayout>

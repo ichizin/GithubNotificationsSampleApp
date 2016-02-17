@@ -6,14 +6,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -27,6 +31,8 @@ import sample.ichizin.githubnotificationssampleapp.di.componets.DaggerAuthCompon
 import sample.ichizin.githubnotificationssampleapp.di.modules.AuthModule;
 import sample.ichizin.githubnotificationssampleapp.di.modules.NotificationModule;
 import sample.ichizin.githubnotificationssampleapp.domain.model.AccessToken;
+import sample.ichizin.githubnotificationssampleapp.domain.model.Notification;
+import sample.ichizin.githubnotificationssampleapp.presentation.adapter.NotificationAdapter;
 import sample.ichizin.githubnotificationssampleapp.presentation.presenter.MainPresenter;
 import sample.ichizin.githubnotificationssampleapp.presentation.view.MainView;
 import sample.ichizin.githubnotificationssampleapp.presentation.view.widget.LoginAlertView;
@@ -43,18 +49,35 @@ public class MainActivity extends BaseActivity implements MainView, LoginAlertVi
     @Bind(R.id.recycler_view)
     RecyclerView recyclerView;
 
+    @Bind(R.id.swipe_refresh_layout)
+    SwipeRefreshLayout swipeRefreshLayout;
+
     private ApiCommponent apiComponent;
     private AlertDialog loginDialog;
     private LoginAlertView loginAlertView;
+
+    private NotificationAdapter notificationAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        initializeInjector();
-        setToolbar();
-        initializePresentr();
+        if(savedInstanceState == null) {
+            initializeInjector();
+            setToolbar();
+            initializePresentr();
+            initializeRecyclerView();
+        }
+
+        this.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                MainActivity.this.mainPresenter.reload();
+            }
+        });
+
+
     }
 
     /**
@@ -75,6 +98,16 @@ public class MainActivity extends BaseActivity implements MainView, LoginAlertVi
     private void initializePresentr() {
         this.mainPresenter.attachView(this);
         this.mainPresenter.initialize();
+    }
+
+    private void initializeRecyclerView() {
+
+        LinearLayoutManager layoutManager =
+                new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        this.recyclerView.setHasFixedSize(true);
+        this.recyclerView.setLayoutManager(layoutManager);
+        this.notificationAdapter = new NotificationAdapter(getContext());
+        recyclerView.setAdapter(notificationAdapter);
     }
 
     @Override
@@ -143,6 +176,11 @@ public class MainActivity extends BaseActivity implements MainView, LoginAlertVi
     }
 
     @Override
+    public void addAdapter(List<Notification> notifications) {
+        this.notificationAdapter.add(notifications);
+    }
+
+    @Override
     public void onBackPressed() {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -151,7 +189,7 @@ public class MainActivity extends BaseActivity implements MainView, LoginAlertVi
                 .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        onBackPressed();
+                        MainActivity.this.finish();
                     }
                 }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
@@ -161,5 +199,13 @@ public class MainActivity extends BaseActivity implements MainView, LoginAlertVi
         }).show();
     }
 
-    
+    @Override
+    public void isRefreshing(boolean flag) {
+        this.swipeRefreshLayout.setRefreshing(flag);
+    }
+
+    @Override
+    public void clearAdapter() {
+        this.notificationAdapter.clear();
+    }
 }

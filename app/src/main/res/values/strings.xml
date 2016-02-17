@@ -10,6 +10,10 @@
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
 
+    <string name="repository_name">Repository: </string>
+    <string name="subject">Subject: </string>
+    <string name="last_update">Update: </string>
+
     <!-- Error message -->
     <string name="error_unknown">処理に失敗しました</string>
     <string name="error_auth_validate_parameter">ログイン処理に失敗しました</string>
