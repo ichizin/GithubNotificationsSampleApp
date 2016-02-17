@@ -1,5 +1,7 @@
 package sample.ichizin.githubnotificationssampleapp.data;
 
+import android.text.TextUtils;
+
 import com.squareup.okhttp.Connection;
 import com.squareup.okhttp.Headers;
 import com.squareup.okhttp.HttpUrl;
@@ -17,6 +19,7 @@ import java.util.concurrent.TimeUnit;
 
 import okio.Buffer;
 import okio.BufferedSource;
+import sample.ichizin.githubnotificationssampleapp.domain.model.AccessToken;
 import sample.ichizin.githubnotificationssampleapp.util.LogUtil;
 
 /**
@@ -115,6 +118,9 @@ public class HttpLoggingInterceptor implements Interceptor {
         Level level = this.level;
 
         Request request = chain.request();
+        request = request.newBuilder().addHeader("Accept", "application/vnd.github.v3.full+json").build();
+        request = request.newBuilder().addHeader("Accept", "application/json").build();
+
         if(level == Level.NONE) {
             return chain.proceed(request);
         }
@@ -134,6 +140,8 @@ public class HttpLoggingInterceptor implements Interceptor {
         }
 
         logger.log(requestStartMessage);
+
+
 
         if(logHeaders) {
             Headers headers = request.headers();
