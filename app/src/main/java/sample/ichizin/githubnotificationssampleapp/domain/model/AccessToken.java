@@ -53,7 +53,10 @@ public class AccessToken implements Serializable {
 
     public static String getAccessToken(Context context) throws StoreTokenException {
         if(TextUtils.isEmpty(token)) {
-            token = TOKEN_PREFIX + PreferenceUtil.readAccessToken(context);
+            String tokenStr = PreferenceUtil.readAccessToken(context);
+            if(!TextUtils.isEmpty(tokenStr)) {
+                token = TOKEN_PREFIX + PreferenceUtil.readAccessToken(context);
+            }
         }
         return token;
     }
