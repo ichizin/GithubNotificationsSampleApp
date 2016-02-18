@@ -4,18 +4,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import java.util.List;
 
@@ -25,15 +21,13 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import sample.ichizin.githubnotificationssampleapp.R;
 import sample.ichizin.githubnotificationssampleapp.di.componets.ApiCommponent;
-import sample.ichizin.githubnotificationssampleapp.di.componets.AuthComponent;
 import sample.ichizin.githubnotificationssampleapp.di.componets.DaggerApiCommponent;
-import sample.ichizin.githubnotificationssampleapp.di.componets.DaggerAuthComponent;
-import sample.ichizin.githubnotificationssampleapp.di.modules.AuthModule;
 import sample.ichizin.githubnotificationssampleapp.di.modules.NotificationModule;
 import sample.ichizin.githubnotificationssampleapp.domain.model.AccessToken;
 import sample.ichizin.githubnotificationssampleapp.domain.model.Notification;
 import sample.ichizin.githubnotificationssampleapp.presentation.adapter.NotificationAdapter;
 import sample.ichizin.githubnotificationssampleapp.presentation.presenter.MainPresenter;
+import sample.ichizin.githubnotificationssampleapp.presentation.view.LoginView;
 import sample.ichizin.githubnotificationssampleapp.presentation.view.MainView;
 import sample.ichizin.githubnotificationssampleapp.presentation.view.widget.LoginAlertView;
 import sample.ichizin.githubnotificationssampleapp.util.LogUtil;
@@ -52,9 +46,16 @@ public class MainActivity extends BaseActivity implements MainView, LoginAlertVi
     @Bind(R.id.swipe_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
 
+    @Bind(R.id.login_view)
+    LoginAlertView loginView;
+
+    @Bind(R.id.progress_content)
+    FrameLayout progressArea;
+
+    @Bind(R.id.error_refresh)
+    LinearLayout errorRefreshLayout;
+
     private ApiCommponent apiComponent;
-    private AlertDialog loginDialog;
-    private LoginAlertView loginAlertView;
 
     private NotificationAdapter notificationAdapter;
 
@@ -77,6 +78,12 @@ public class MainActivity extends BaseActivity implements MainView, LoginAlertVi
             }
         });
 
+        this.errorRefreshLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity.this.mainPresenter.errorRefresh();
+            }
+        });
 
     }
 
@@ -119,9 +126,8 @@ public class MainActivity extends BaseActivity implements MainView, LoginAlertVi
             LogUtil.d(MainActivity.class.getSimpleName(),
                     "onActivityResult: " + AccessToken.getAccessToken(this));
 
-            if(this.loginDialog != null) {
-                this.loginDialog.dismiss();
-            }
+            this.loginView.setVisibility(View.GONE);
+
             this.mainPresenter.getData();
         }
     }
@@ -134,9 +140,6 @@ public class MainActivity extends BaseActivity implements MainView, LoginAlertVi
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(this.loginAlertView != null)  {
-            this.loginAlertView.unBind();
-        }
     }
 
     @Override
@@ -146,12 +149,12 @@ public class MainActivity extends BaseActivity implements MainView, LoginAlertVi
 
     @Override
     public void showLoading() {
-
+        this.progressArea.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideLoading() {
-
+        this.progressArea.setVisibility(View.GONE);
     }
 
     @Override
@@ -161,13 +164,8 @@ public class MainActivity extends BaseActivity implements MainView, LoginAlertVi
 
     @Override
     public void displayLoginView() {
-        LoginAlertView view = new LoginAlertView(getContext());
-        view.setLoginAlertViewListener(this);
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setView(view);
-        this.loginDialog = builder.create();
-        this.loginDialog.setCanceledOnTouchOutside(true);
-        this.loginDialog.show();
+        this.loginView.setVisibility(View.VISIBLE);
+        this.loginView.setLoginAlertViewListener(this);
     }
 
     @Override
@@ -207,5 +205,14 @@ public class MainActivity extends BaseActivity implements MainView, LoginAlertVi
     @Override
     public void clearAdapter() {
         this.notificationAdapter.clear();
+    }
+
+    @Override
+    public void showErrorRefreshPage(boolean isShow) {
+        if(isShow) {
+            this.errorRefreshLayout.setVisibility(View.VISIBLE);
+        } else {
+            this.errorRefreshLayout.setVisibility(View.GONE);
+        }
     }
 }

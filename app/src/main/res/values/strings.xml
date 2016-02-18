@@ -9,6 +9,7 @@
     <string name="confirm_backkey_message">アプリを終了します。よろしいですか？</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
+    <string name="reload">Reload</string>
 
     <string name="repository_name">Repository: </string>
     <string name="subject">Subject: </string>
@@ -17,6 +18,7 @@
     <!-- Error message -->
     <string name="error_unknown">処理に失敗しました</string>
     <string name="error_auth_validate_parameter">ログイン処理に失敗しました</string>
+    <string name="error_webpage">WEBページをロードできません。\n ネットワーク状況を確認して再度お試しください。</string>
 
     <!--System parameter -->
     <string name="scopes">notifications</string>

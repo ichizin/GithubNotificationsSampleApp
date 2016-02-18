@@ -53,7 +53,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         dataHolder.repositoryName.setText(notification.getRepository().getName());
         dataHolder.subject.setText(notification.getSubject().getTitle());
-        dataHolder.lastUpdate.setText(notification.getUpdated_at());
+        dataHolder.lastUpdate.setText(notification.getLocalizeLastUpdateTime());
     }
 
 
@@ -98,6 +98,5 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             super(view);
             ButterKnife.bind(this, view);
         }
-
     }
 }

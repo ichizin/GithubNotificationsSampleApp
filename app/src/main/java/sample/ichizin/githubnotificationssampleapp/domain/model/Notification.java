@@ -1,5 +1,9 @@
 package sample.ichizin.githubnotificationssampleapp.domain.model;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by ichizin on 16/02/16.
  *
@@ -49,6 +53,17 @@ public class Notification {
 
     public String getUpdated_at() {
         return updated_at;
+    }
+
+    public String getLocalizeLastUpdateTime() {
+        try {
+            String s = updated_at.replace("Z", "+00:00");
+            Date date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").parse(s);
+            SimpleDateFormat sd = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+            return sd.format(date);
+        } catch (ParseException e) {
+            return updated_at;
+        }
     }
 
     public void setUpdated_at(String updated_at) {

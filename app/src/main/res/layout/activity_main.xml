@@ -18,6 +18,18 @@
 
     <include layout="@layout/content_main"/>
 
-    <!--&lt;!&ndash; loading &ndash;&gt;-->
-    <!--<include layout="@layout/progress_circle" />-->
+
+    <sample.ichizin.githubnotificationssampleapp.presentation.view.widget.LoginAlertView
+        android:id="@+id/login_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+       />
+
+    <!-- Progress -->
+    <include layout="@layout/progress_circle" />
+
+    <!-- Error Refresh -->
+    <include layout="@layout/error_refresh" />
+
 </android.support.design.widget.CoordinatorLayout>

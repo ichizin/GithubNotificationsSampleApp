@@ -36,6 +36,7 @@ public class MainPresenter implements Presenter<MainView> {
         if(TextUtils.isEmpty(AccessToken.getAccessToken(this.mainView.getContext()))) {
             this.mainView.displayLoginView();
         } else {
+            this.mainView.showLoading();
             this.getData();
         }
     }
@@ -52,11 +53,10 @@ public class MainPresenter implements Presenter<MainView> {
 
     @Override
     public void destroy() {
-
+        getNotifiacetions.unsubscribe();
     }
 
     public void getData() {
-
         this.getNotifiacetions.execute(AccessToken.getAccessToken(
                 this.mainView.getContext()), new GetNotificationSuscriber());
     }
@@ -64,6 +64,13 @@ public class MainPresenter implements Presenter<MainView> {
     public void reload() {
         this.isReload = true;
         getData();
+    }
+
+    public void errorRefresh() {
+        MainPresenter.this.mainView.showErrorRefreshPage(false);
+        MainPresenter.this.mainView.showLoading();
+        getData();
+
     }
 
     @Override
@@ -76,20 +83,22 @@ public class MainPresenter implements Presenter<MainView> {
         public void onCompleted() {
             isReload  = false;
             MainPresenter.this.mainView.isRefreshing(false);
+            MainPresenter.this.mainView.hideLoading();
         }
 
         @Override
         public void onError(Throwable e) {
+
             LogUtil.e(MainPresenter.class.getSimpleName(), e);
+            MainPresenter.this.mainView.showErrorRefreshPage(true);
         }
 
         @Override
         public void onNext(List<Notification> notifications) {
 
             if(isReload) {
-
+                MainPresenter.this.mainView.clearAdapter();
             }
-
             MainPresenter.this.mainView.addAdapter(notifications);
         }
     }

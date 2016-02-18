@@ -18,4 +18,6 @@ public interface MainView extends LoadDataView {
     void isRefreshing(boolean flag);
 
     void clearAdapter();
+
+    void showErrorRefreshPage(boolean isShow);
 }
