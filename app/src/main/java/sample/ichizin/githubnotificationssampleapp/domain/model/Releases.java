@@ -33,8 +33,6 @@ public class Releases {
 
     private String published_at;
 
-//    private Assets assets;
-
     private String tarball_url;
 
     private String zipball_url;
@@ -136,14 +134,6 @@ public class Releases {
     public void setPublished_at(String published_at) {
         this.published_at = published_at;
     }
-
-//    public Assets getAssets() {
-//        return assets;
-//    }
-//
-//    public void setAssets(Assets assets) {
-//        this.assets = assets;
-//    }
 
     public String getTarball_url() {
         return tarball_url;

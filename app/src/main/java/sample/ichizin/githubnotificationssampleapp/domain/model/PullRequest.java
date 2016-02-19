@@ -57,10 +57,10 @@ public class PullRequest {
 
     private String statuses_url;
 
-//    private Head head;
-//
-//    private Head base;
-//
+    private Head head;
+
+    private Head base;
+
     @SerializedName("_links")
     private Links links;
 
@@ -68,9 +68,9 @@ public class PullRequest {
 
     private boolean mergeable;
 
-    private String mergeable_state;
-
-    private String merged_by;
+//    private String mergeable_state;
+//
+//    private String merged_by;
 
     private int comments;
 
@@ -276,21 +276,21 @@ public class PullRequest {
         this.statuses_url = statuses_url;
     }
 
-//    public Head getHead() {
-//        return head;
-//    }
-//
-//    public void setHead(Head head) {
-//        this.head = head;
-//    }
-//
-//    public Head getBase() {
-//        return base;
-//    }
-//
-//    public void setBase(Head base) {
-//        this.base = base;
-//    }
+    public Head getHead() {
+        return head;
+    }
+
+    public void setHead(Head head) {
+        this.head = head;
+    }
+
+    public Head getBase() {
+        return base;
+    }
+
+    public void setBase(Head base) {
+        this.base = base;
+    }
 
     public Links getLinks() {
         return links;
@@ -316,21 +316,21 @@ public class PullRequest {
         this.mergeable = mergeable;
     }
 
-    public String getMergeable_state() {
-        return mergeable_state;
-    }
-
-    public void setMergeable_state(String mergeable_state) {
-        this.mergeable_state = mergeable_state;
-    }
-
-    public String getMerged_by() {
-        return merged_by;
-    }
-
-    public void setMerged_by(String merged_by) {
-        this.merged_by = merged_by;
-    }
+//    public String getMergeable_state() {
+//        return mergeable_state;
+//    }
+//
+//    public void setMergeable_state(String mergeable_state) {
+//        this.mergeable_state = mergeable_state;
+//    }
+//
+//    public String getMerged_by() {
+//        return merged_by;
+//    }
+//
+//    public void setMerged_by(String merged_by) {
+//        this.merged_by = merged_by;
+//    }
 
     public int getComments() {
         return comments;
