@@ -10,4 +10,6 @@
     <color name="list_background">#EEEEEE</color>
     <color name="un_read_background">#BBDEFB</color>
 
+    <color name="font_white">#ffffff</color>
+
 </resources>
