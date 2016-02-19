@@ -68,7 +68,7 @@ public class MainPresenter implements Presenter<MainView> {
         this.getNotifiacetions.unsubscribe();
         this.getIssueHttpUrl.unsubscribe();
         this.getPullRequestHttpUrl.unsubscribe();
-
+        this.getReleaseHttpUrl.unsubscribe();
     }
 
     @Override
