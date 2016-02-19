@@ -109,6 +109,7 @@ public class MainActivity extends BaseActivity implements MainView,
      */
     private void setToolbar() {
         this.toolbar.setTitle(R.string.app_name);
+        this.toolbar.setTitleTextColor(getResources().getColor(R.color.font_white));
         this.toolbar.inflateMenu(R.menu.menu_main);
         this.toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
