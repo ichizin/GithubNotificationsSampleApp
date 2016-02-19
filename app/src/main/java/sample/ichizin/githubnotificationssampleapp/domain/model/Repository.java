@@ -2,12 +2,16 @@ package sample.ichizin.githubnotificationssampleapp.domain.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by ichizin on 16/02/16.
  *
  * @author ichizin
  */
-public class Repository {
+public class Repository implements Serializable {
+
+    private static final long serialVersionUID = 617349858006746512L;
 
     private long id;
 

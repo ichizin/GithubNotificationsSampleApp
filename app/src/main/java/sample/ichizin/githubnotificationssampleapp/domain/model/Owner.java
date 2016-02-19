@@ -1,13 +1,18 @@
 package sample.ichizin.githubnotificationssampleapp.domain.model;
 
+import java.io.Serializable;
+
 /**
  * Created by ichizin on 16/02/16.
  *
  * @author ichizin
  */
-public class Owner {
+public class Owner implements Serializable {
 
-   private String id;
+
+    private static final long serialVersionUID = -7040383499707113278L;
+
+    private String id;
 
     private String login;
 

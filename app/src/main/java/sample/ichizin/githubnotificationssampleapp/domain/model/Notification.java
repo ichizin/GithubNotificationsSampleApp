@@ -1,5 +1,6 @@
 package sample.ichizin.githubnotificationssampleapp.domain.model;
 
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -11,7 +12,9 @@ import sample.ichizin.githubnotificationssampleapp.util.DateUtil;
  *
  * @author ichizin
  */
-public class Notification {
+public class Notification implements Serializable {
+
+    private static final long serialVersionUID = 6977995784734876212L;
 
     private String id;
 

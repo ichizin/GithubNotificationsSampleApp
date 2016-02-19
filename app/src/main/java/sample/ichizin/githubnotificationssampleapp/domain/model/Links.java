@@ -1,11 +1,15 @@
 package sample.ichizin.githubnotificationssampleapp.domain.model;
 
+import java.io.Serializable;
+
 /**
  *
  *
  * @author ichizin
  */
-public class Links {
+public class Links implements Serializable {
+
+    private static final long serialVersionUID = 7170413841974578007L;
 
     private Link self;
 
