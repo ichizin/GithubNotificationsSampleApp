@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Github Notifications SampleApp</string>
+    <string name="app_name">GitHub Notifications</string>
     <string name="action_settings">Settings</string>
     <string name="login_button_label">Github Login</string>
     <string name="alert_login_title">Please login your GitHub account</string>
