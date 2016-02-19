@@ -31,8 +31,8 @@
     <!--System parameter -->
     <string name="scopes">notifications</string>
     <string name="oauth_host">www.github.com</string>
-    <string name="client_id">df1555d1dd9c0343f4dc</string>
-    <string name="client_secret">5b5da2e69f2e39ba3ae5233f04a447bc295ca971</string>
-    <string name="callback_url">https://dl.dropboxusercontent.com/u/64400285/GitHubNotificationApp/callback.html?code=</string>
+    <string name="client_id">xxxxxxxxxx</string>
+    <string name="client_secret">xxxxxxxxxx</string>
+    <string name="callback_url">xxxxxxxxxx</string>
 
 </resources>
