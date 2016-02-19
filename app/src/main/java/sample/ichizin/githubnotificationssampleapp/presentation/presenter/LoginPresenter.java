@@ -11,11 +11,9 @@ import javax.inject.Inject;
 import sample.ichizin.githubnotificationssampleapp.R;
 import sample.ichizin.githubnotificationssampleapp.domain.interactor.GetAccessToken;
 import sample.ichizin.githubnotificationssampleapp.domain.model.AccessToken;
-import sample.ichizin.githubnotificationssampleapp.exception.ErrorMessageFactory;
 import sample.ichizin.githubnotificationssampleapp.exception.MyAppException;
 import sample.ichizin.githubnotificationssampleapp.presentation.view.LoginView;
 import sample.ichizin.githubnotificationssampleapp.util.LogUtil;
-import sample.ichizin.githubnotificationssampleapp.util.PreferenceUtil;
 
 public class LoginPresenter implements Presenter<LoginView> {
 
