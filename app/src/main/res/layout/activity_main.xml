@@ -32,4 +32,7 @@
     <!-- Error Refresh -->
     <include layout="@layout/error_refresh" />
 
+    <!-- No Data -->
+    <include layout="@layout/no_data" />
+
 </android.support.design.widget.CoordinatorLayout>

@@ -77,7 +77,7 @@ public class AppModule {
     @Provides
     @Singleton
     Cache provideOkhttpCache(Context context) {
-        int cacheSize = 10 * 1024 * 1024;   // 10MB
+        int cacheSize = 1 * 1024 * 1024;   // 1MB
         Cache cache = new Cache(context.getCacheDir(), cacheSize);
         return cache;
     }

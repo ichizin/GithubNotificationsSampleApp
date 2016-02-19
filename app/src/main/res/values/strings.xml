@@ -5,6 +5,7 @@
     <string name="alert_login_title">Please login your GitHub account</string>
 
     <string name="progress_dispose">処理中...</string>
+    <string name="progress_loading">ローディング中...</string>
     <string name="confirm">確認</string>
     <string name="confirm_backkey_message">アプリを終了します。よろしいですか？</string>
     <string name="ok">OK</string>
@@ -15,10 +16,17 @@
     <string name="subject">Subject: </string>
     <string name="last_update">Update: </string>
 
+    <string name="no_new_data">新しいお知らせはありません。</string>
+    <string name="logout">logout</string>
+    <string name="confirm_logout">ログアウトします。よろしいですか？</string>
+
     <!-- Error message -->
     <string name="error_unknown">処理に失敗しました</string>
     <string name="error_auth_validate_parameter">ログイン処理に失敗しました</string>
     <string name="error_webpage">WEBページをロードできません。\n ネットワーク状況を確認して再度お試しください。</string>
+    <string name="error_not_support">このお知らせは表示サポートしていません</string>
+    <string name="error_authorize">GitHubとログイン認証をしてください</string>
+    <string name="error_invalid_url">そのお知らせに遷移できません</string>
 
     <!--System parameter -->
     <string name="scopes">notifications</string>

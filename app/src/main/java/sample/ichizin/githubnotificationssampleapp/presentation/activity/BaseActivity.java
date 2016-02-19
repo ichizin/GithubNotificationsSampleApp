@@ -1,5 +1,6 @@
 package sample.ichizin.githubnotificationssampleapp.presentation.activity;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
@@ -18,7 +19,7 @@ import sample.ichizin.githubnotificationssampleapp.presentation.Navigator;
  *
  * @author ichizin
  */
-public class BaseActivity extends AppCompatActivity {
+public class BaseActivity extends Activity {
 
     @Inject
     Navigator navigator;
@@ -38,10 +39,6 @@ public class BaseActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         ButterKnife.unbind(this);
-    }
-
-    protected void bindView() {
-        ButterKnife.bind(this);
     }
 
     /**

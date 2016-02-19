@@ -8,4 +8,6 @@
     <color name="background_default">#ffffff</color>
 
     <color name="list_background">#EEEEEE</color>
+    <color name="un_read_background">#BBDEFB</color>
+
 </resources>

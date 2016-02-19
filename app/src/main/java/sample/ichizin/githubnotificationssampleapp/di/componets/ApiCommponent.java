@@ -4,7 +4,9 @@ import dagger.Component;
 import sample.ichizin.githubnotificationssampleapp.di.PerActivity;
 import sample.ichizin.githubnotificationssampleapp.di.modules.ActivityModule;
 import sample.ichizin.githubnotificationssampleapp.di.modules.NotificationModule;
+import sample.ichizin.githubnotificationssampleapp.domain.interactor.GetIssueHttpUrl;
 import sample.ichizin.githubnotificationssampleapp.domain.interactor.GetNotifiacetions;
+import sample.ichizin.githubnotificationssampleapp.domain.interactor.GetPullRequestHttpUrl;
 import sample.ichizin.githubnotificationssampleapp.presentation.activity.MainActivity;
 
 /**
@@ -18,5 +20,4 @@ public interface ApiCommponent {
 
     void inject(MainActivity mainActivity);
 
-    GetNotifiacetions getNotifications();
 }

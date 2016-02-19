@@ -20,4 +20,10 @@ public interface MainView extends LoadDataView {
     void clearAdapter();
 
     void showErrorRefreshPage(boolean isShow);
+
+    void showNoData(boolean isShow);
+
+    void showLogoutOnToolbar(boolean isShow);
+
+    void transferDetail(String httpUrl);
 }

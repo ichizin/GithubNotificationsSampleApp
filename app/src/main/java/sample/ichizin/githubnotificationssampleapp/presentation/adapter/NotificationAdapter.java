@@ -15,6 +15,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import sample.ichizin.githubnotificationssampleapp.R;
 import sample.ichizin.githubnotificationssampleapp.domain.model.Notification;
+import sample.ichizin.githubnotificationssampleapp.util.enums.SubjectType;
 
 /**
  *
@@ -25,11 +26,12 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     private Context context;
     private List<Notification> notifications;
+    private NotificationAdapterLisnter notificationAdapterLisnter;
 
     private final int HEADER_POSITION = 0;
 
     public interface NotificationAdapterLisnter {
-        void onClickItem();
+        void onClickItem(String detailApiUrl, SubjectType type);
     }
 
     public NotificationAdapter(Context context) {
@@ -52,8 +54,19 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         final Notification notification = getItem(position);
 
         dataHolder.repositoryName.setText(notification.getRepository().getName());
+        dataHolder.notificationType.setText(notification.getSubject().getType());
         dataHolder.subject.setText(notification.getSubject().getTitle());
         dataHolder.lastUpdate.setText(notification.getLocalizeLastUpdateTime());
+        dataHolder.notificationLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(NotificationAdapter.this.notificationAdapterLisnter != null) {
+                    NotificationAdapter.this.notificationAdapterLisnter
+                            .onClickItem(notification.getSubject().getUrl(),
+                                    SubjectType.valueOfId(notification.getSubject().getType()));
+                }
+            }
+        });
     }
 
 
@@ -80,6 +93,10 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         this.notifyDataSetChanged();
     }
 
+    public void setNotificationAdapterLisnter(NotificationAdapterLisnter lisnter) {
+        this.notificationAdapterLisnter = lisnter;
+    }
+
     static class ViewDataHolder extends RecyclerView.ViewHolder {
 
         @Bind(R.id.notification_layout)
@@ -87,6 +104,9 @@ public class NotificationAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         @Bind(R.id.repository_name)
         TextView repositoryName;
+
+        @Bind(R.id.type)
+        TextView notificationType;
 
         @Bind(R.id.subject)
         TextView subject;

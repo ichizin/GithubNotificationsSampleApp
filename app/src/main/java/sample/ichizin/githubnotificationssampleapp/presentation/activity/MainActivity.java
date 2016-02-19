@@ -9,9 +9,12 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -27,12 +30,13 @@ import sample.ichizin.githubnotificationssampleapp.domain.model.AccessToken;
 import sample.ichizin.githubnotificationssampleapp.domain.model.Notification;
 import sample.ichizin.githubnotificationssampleapp.presentation.adapter.NotificationAdapter;
 import sample.ichizin.githubnotificationssampleapp.presentation.presenter.MainPresenter;
-import sample.ichizin.githubnotificationssampleapp.presentation.view.LoginView;
 import sample.ichizin.githubnotificationssampleapp.presentation.view.MainView;
 import sample.ichizin.githubnotificationssampleapp.presentation.view.widget.LoginAlertView;
 import sample.ichizin.githubnotificationssampleapp.util.LogUtil;
+import sample.ichizin.githubnotificationssampleapp.util.enums.SubjectType;
 
-public class MainActivity extends BaseActivity implements MainView, LoginAlertView.LoginAlertViewListener {
+public class MainActivity extends BaseActivity implements MainView,
+        LoginAlertView.LoginAlertViewListener, NotificationAdapter.NotificationAdapterLisnter{
 
     @Inject
     MainPresenter mainPresenter;
@@ -54,6 +58,9 @@ public class MainActivity extends BaseActivity implements MainView, LoginAlertVi
 
     @Bind(R.id.error_refresh)
     LinearLayout errorRefreshLayout;
+
+    @Bind(R.id.no_data_content)
+    LinearLayout noDataLayout;
 
     private ApiCommponent apiComponent;
 
@@ -84,7 +91,6 @@ public class MainActivity extends BaseActivity implements MainView, LoginAlertVi
                 MainActivity.this.mainPresenter.errorRefresh();
             }
         });
-
     }
 
     /**
@@ -98,8 +104,35 @@ public class MainActivity extends BaseActivity implements MainView, LoginAlertVi
         this.apiComponent.inject(this);
     }
 
+    /**
+     *
+     */
     private void setToolbar() {
         this.toolbar.setTitle(R.string.app_name);
+        this.toolbar.inflateMenu(R.menu.menu_main);
+        this.toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if(item.getItemId() == R.id.logout) {
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setTitle(R.string.confirm)
+                            .setMessage(R.string.confirm_logout)
+                            .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    MainActivity.this.mainPresenter.logout();
+                                }
+                            }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    }).show();
+                }
+                return false;
+            }
+        });
     }
 
     private void initializePresentr() {
@@ -114,6 +147,7 @@ public class MainActivity extends BaseActivity implements MainView, LoginAlertVi
         this.recyclerView.setHasFixedSize(true);
         this.recyclerView.setLayoutManager(layoutManager);
         this.notificationAdapter = new NotificationAdapter(getContext());
+        this.notificationAdapter.setNotificationAdapterLisnter(this);
         recyclerView.setAdapter(notificationAdapter);
     }
 
@@ -127,19 +161,29 @@ public class MainActivity extends BaseActivity implements MainView, LoginAlertVi
                     "onActivityResult: " + AccessToken.getAccessToken(this));
 
             this.loginView.setVisibility(View.GONE);
-
+            this.showLoading();
             this.mainPresenter.getData();
+            this.showLogoutOnToolbar(true);
+            this.swipeRefreshLayout.setVisibility(View.VISIBLE);
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        this.mainPresenter.resume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        this.mainPresenter.pause();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        this.mainPresenter.destroy();
     }
 
     @Override
@@ -159,13 +203,15 @@ public class MainActivity extends BaseActivity implements MainView, LoginAlertVi
 
     @Override
     public void showError(String message) {
-
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void displayLoginView() {
         this.loginView.setVisibility(View.VISIBLE);
         this.loginView.setLoginAlertViewListener(this);
+        this.showLogoutOnToolbar(false);
+        this.swipeRefreshLayout.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -214,5 +260,34 @@ public class MainActivity extends BaseActivity implements MainView, LoginAlertVi
         } else {
             this.errorRefreshLayout.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void showNoData(boolean isShow) {
+        if(isShow) {
+            this.noDataLayout.setVisibility(View.VISIBLE);
+        } else {
+            this.noDataLayout.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void showLogoutOnToolbar(boolean isShow) {
+        Menu menu = this.toolbar.getMenu();
+        if(isShow) {
+            menu.getItem(0).setVisible(true);
+        } else {
+            menu.getItem(0).setVisible(false);
+        }
+    }
+
+    @Override
+    public void onClickItem(String detailApiUrl, SubjectType type) {
+        this.mainPresenter.getDetailUrl(detailApiUrl, type);
+    }
+
+    @Override
+    public void transferDetail(String httpUrl) {
+        this.navigator.detail(getContext(), httpUrl);
     }
 }
