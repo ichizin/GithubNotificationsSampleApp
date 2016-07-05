@@ -5,7 +5,7 @@ import dagger.Provides;
 import sample.ichizin.githubnotificationssampleapp.di.PerActivity;
 import sample.ichizin.githubnotificationssampleapp.domain.executor.PostExecutionThread;
 import sample.ichizin.githubnotificationssampleapp.domain.executor.ThreadExecutor;
-import sample.ichizin.githubnotificationssampleapp.domain.interactor.GetAccessToken;
+import sample.ichizin.githubnotificationssampleapp.domain.usecase.GetAccessToken;
 import sample.ichizin.githubnotificationssampleapp.domain.repository.AuthRepository;
 
 /**

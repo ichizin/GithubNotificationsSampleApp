@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 
 import java.util.List;
 
-import retrofit.Response;
 import retrofit.Retrofit;
 import retrofit.http.GET;
 import retrofit.http.Header;
@@ -14,13 +13,12 @@ import retrofit.http.QueryMap;
 import retrofit.http.Url;
 import rx.Observable;
 import rx.functions.Func1;
-import sample.ichizin.githubnotificationssampleapp.domain.model.Issue;
-import sample.ichizin.githubnotificationssampleapp.domain.model.Notification;
-import sample.ichizin.githubnotificationssampleapp.domain.model.PullRequest;
-import sample.ichizin.githubnotificationssampleapp.domain.model.Releases;
-import sample.ichizin.githubnotificationssampleapp.domain.model.request.NotificationRequest;
+import sample.ichizin.githubnotificationssampleapp.domain.Issue;
+import sample.ichizin.githubnotificationssampleapp.domain.Notification;
+import sample.ichizin.githubnotificationssampleapp.domain.PullRequest;
+import sample.ichizin.githubnotificationssampleapp.domain.Releases;
+import sample.ichizin.githubnotificationssampleapp.domain.model.NotificationRequest;
 import sample.ichizin.githubnotificationssampleapp.domain.repository.NotificationApiRepository;
-import sample.ichizin.githubnotificationssampleapp.util.LogUtil;
 
 /**
  * Created by ichizin on 16/02/16.

@@ -5,10 +5,10 @@ import dagger.Provides;
 import sample.ichizin.githubnotificationssampleapp.di.PerActivity;
 import sample.ichizin.githubnotificationssampleapp.domain.executor.PostExecutionThread;
 import sample.ichizin.githubnotificationssampleapp.domain.executor.ThreadExecutor;
-import sample.ichizin.githubnotificationssampleapp.domain.interactor.GetIssueHttpUrl;
-import sample.ichizin.githubnotificationssampleapp.domain.interactor.GetNotifiacetions;
-import sample.ichizin.githubnotificationssampleapp.domain.interactor.GetPullRequestHttpUrl;
-import sample.ichizin.githubnotificationssampleapp.domain.interactor.GetReleaseHttpUrl;
+import sample.ichizin.githubnotificationssampleapp.domain.usecase.GetIssueHttpUrl;
+import sample.ichizin.githubnotificationssampleapp.domain.usecase.GetNotifiacetions;
+import sample.ichizin.githubnotificationssampleapp.domain.usecase.GetPullRequestHttpUrl;
+import sample.ichizin.githubnotificationssampleapp.domain.usecase.GetReleaseHttpUrl;
 import sample.ichizin.githubnotificationssampleapp.domain.repository.NotificationApiRepository;
 
 /**

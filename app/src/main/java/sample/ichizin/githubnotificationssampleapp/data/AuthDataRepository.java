@@ -8,7 +8,7 @@ import retrofit.http.FormUrlEncoded;
 import retrofit.http.Headers;
 import retrofit.http.POST;
 import rx.Observable;
-import sample.ichizin.githubnotificationssampleapp.domain.model.AccessToken;
+import sample.ichizin.githubnotificationssampleapp.domain.AccessToken;
 import sample.ichizin.githubnotificationssampleapp.domain.repository.AuthRepository;
 
 /**

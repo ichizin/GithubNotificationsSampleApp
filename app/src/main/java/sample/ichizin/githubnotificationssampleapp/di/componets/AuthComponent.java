@@ -4,9 +4,8 @@ import dagger.Component;
 import sample.ichizin.githubnotificationssampleapp.di.PerActivity;
 import sample.ichizin.githubnotificationssampleapp.di.modules.ActivityModule;
 import sample.ichizin.githubnotificationssampleapp.di.modules.AuthModule;
-import sample.ichizin.githubnotificationssampleapp.domain.interactor.GetAccessToken;
-import sample.ichizin.githubnotificationssampleapp.presentation.activity.LoginActivity;
-import sample.ichizin.githubnotificationssampleapp.presentation.activity.MainActivity;
+import sample.ichizin.githubnotificationssampleapp.domain.usecase.GetAccessToken;
+import sample.ichizin.githubnotificationssampleapp.ui.activity.LoginActivity;
 
 /**
  * Created by ichizin on 16/02/14.

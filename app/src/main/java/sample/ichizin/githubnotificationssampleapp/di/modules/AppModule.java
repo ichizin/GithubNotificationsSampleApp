@@ -29,7 +29,7 @@ import sample.ichizin.githubnotificationssampleapp.domain.executor.ThreadExecuto
 import sample.ichizin.githubnotificationssampleapp.domain.executor.UIThread;
 import sample.ichizin.githubnotificationssampleapp.domain.repository.AuthRepository;
 import sample.ichizin.githubnotificationssampleapp.domain.repository.NotificationApiRepository;
-import sample.ichizin.githubnotificationssampleapp.presentation.Navigator;
+import sample.ichizin.githubnotificationssampleapp.util.Navigator;
 
 /**
  * Application Module

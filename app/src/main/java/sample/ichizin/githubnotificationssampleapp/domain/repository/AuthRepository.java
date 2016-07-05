@@ -1,7 +1,7 @@
 package sample.ichizin.githubnotificationssampleapp.domain.repository;
 
 import rx.Observable;
-import sample.ichizin.githubnotificationssampleapp.domain.model.AccessToken;
+import sample.ichizin.githubnotificationssampleapp.domain.AccessToken;
 
 /**
  * Created by ichizin on 16/02/15.

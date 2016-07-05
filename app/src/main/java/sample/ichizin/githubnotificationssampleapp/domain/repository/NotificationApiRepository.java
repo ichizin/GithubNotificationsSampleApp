@@ -4,8 +4,8 @@ package sample.ichizin.githubnotificationssampleapp.domain.repository;
 import java.util.List;
 
 import rx.Observable;
-import sample.ichizin.githubnotificationssampleapp.domain.model.Notification;
-import sample.ichizin.githubnotificationssampleapp.domain.model.request.NotificationRequest;
+import sample.ichizin.githubnotificationssampleapp.domain.Notification;
+import sample.ichizin.githubnotificationssampleapp.domain.model.NotificationRequest;
 
 /**
  * Created by ichizin on 16/02/16.

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".presentation.activity.MainActivity"
+    tools:context=".ui.activity.MainActivity"
     >
 
     <android.support.design.widget.AppBarLayout
@@ -19,7 +19,7 @@
     <include layout="@layout/content_main"/>
 
 
-    <sample.ichizin.githubnotificationssampleapp.presentation.view.widget.LoginAlertView
+    <sample.ichizin.githubnotificationssampleapp.ui.view.widget.LoginAlertView
         android:id="@+id/login_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

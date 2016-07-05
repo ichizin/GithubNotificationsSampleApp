@@ -1,7 +1,5 @@
 package sample.ichizin.githubnotificationssampleapp.data;
 
-import android.text.TextUtils;
-
 import com.squareup.okhttp.Connection;
 import com.squareup.okhttp.Headers;
 import com.squareup.okhttp.HttpUrl;
@@ -19,7 +17,6 @@ import java.util.concurrent.TimeUnit;
 
 import okio.Buffer;
 import okio.BufferedSource;
-import sample.ichizin.githubnotificationssampleapp.domain.model.AccessToken;
 import sample.ichizin.githubnotificationssampleapp.util.LogUtil;
 
 /**
